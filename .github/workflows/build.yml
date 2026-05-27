@@ -20,7 +20,7 @@ jobs:
     - name: Giai nen file code
       run: unzip VLESSRealityDemo.zip
 
-    - name: Fix loi thieu Repositories
+    - name: Fix Repositories va ha version SDK
       run: |
         cd VLESSRealityDemo
         cat <<EOF > new_settings.gradle
@@ -41,11 +41,14 @@ jobs:
         EOF
         cat settings.gradle >> new_settings.gradle
         mv new_settings.gradle settings.gradle
+        
+        sed -i 's/compileSdk 35/compileSdk 34/g' app/build.gradle
+        sed -i 's/targetSdk 35/targetSdk 34/g' app/build.gradle
 
-    - name: Tao Gradle Wrapper va Tien hanh Build APK
+    - name: Tao Gradle Wrapper v8.7 va Tien hanh Build APK
       run: |
         cd VLESSRealityDemo
-        gradle wrapper
+        gradle wrapper --gradle-version 8.7
         chmod +x gradlew
         ./gradlew assembleDebug
 
