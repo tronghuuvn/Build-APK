@@ -20,7 +20,7 @@ jobs:
     - name: Giai nen file code
       run: unzip VLESSRealityDemo.zip
 
-    - name: Fix cac loi cau hinh (Repositories, SDK, AndroidX)
+    - name: Fix cac loi cau hinh (Repositories, SDK, AndroidX, Java)
       run: |
         cd VLESSRealityDemo
         
@@ -51,6 +51,20 @@ jobs:
         # 3. Cap phep su dung AndroidX
         echo "android.useAndroidX=true" >> gradle.properties
         echo "android.enableJetifier=true" >> gradle.properties
+        
+        # 4. Dong nhat phien ban Java 17 (Fix loi Inconsistent JVM-target)
+        cat <<EOF >> app/build.gradle
+        
+        android {
+            compileOptions {
+                sourceCompatibility JavaVersion.VERSION_17
+                targetCompatibility JavaVersion.VERSION_17
+            }
+            kotlinOptions {
+                jvmTarget = '17'
+            }
+        }
+        EOF
 
     - name: Tao Gradle Wrapper v8.7 va Tien hanh Build APK
       run: |
