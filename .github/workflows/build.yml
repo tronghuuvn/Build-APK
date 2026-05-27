@@ -20,6 +20,28 @@ jobs:
     - name: Giai nen file code
       run: unzip VLESSRealityDemo.zip
 
+    - name: Fix loi thieu Repositories
+      run: |
+        cd VLESSRealityDemo
+        cat <<EOF > new_settings.gradle
+        pluginManagement {
+            repositories {
+                google()
+                mavenCentral()
+                gradlePluginPortal()
+            }
+        }
+        dependencyResolutionManagement {
+            repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+            repositories {
+                google()
+                mavenCentral()
+            }
+        }
+        EOF
+        cat settings.gradle >> new_settings.gradle
+        mv new_settings.gradle settings.gradle
+
     - name: Tao Gradle Wrapper va Tien hanh Build APK
       run: |
         cd VLESSRealityDemo
