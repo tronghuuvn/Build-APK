@@ -20,9 +20,11 @@ jobs:
     - name: Giai nen file code
       run: unzip VLESSRealityDemo.zip
 
-    - name: Fix Repositories va ha version SDK
+    - name: Fix cac loi cau hinh (Repositories, SDK, AndroidX)
       run: |
         cd VLESSRealityDemo
+        
+        # 1. Fix Repositories
         cat <<EOF > new_settings.gradle
         pluginManagement {
             repositories {
@@ -42,8 +44,13 @@ jobs:
         cat settings.gradle >> new_settings.gradle
         mv new_settings.gradle settings.gradle
         
+        # 2. Ha version SDK xuong 34
         sed -i 's/compileSdk 35/compileSdk 34/g' app/build.gradle
         sed -i 's/targetSdk 35/targetSdk 34/g' app/build.gradle
+        
+        # 3. Cap phep su dung AndroidX
+        echo "android.useAndroidX=true" >> gradle.properties
+        echo "android.enableJetifier=true" >> gradle.properties
 
     - name: Tao Gradle Wrapper v8.7 va Tien hanh Build APK
       run: |
