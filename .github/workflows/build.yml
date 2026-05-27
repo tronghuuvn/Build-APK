@@ -20,9 +20,10 @@ jobs:
     - name: Giai nen file code
       run: unzip VLESSRealityDemo.zip
 
-    - name: Tien hanh Build APK
+    - name: Tao Gradle Wrapper va Tien hanh Build APK
       run: |
         cd VLESSRealityDemo
+        gradle wrapper
         chmod +x gradlew
         ./gradlew assembleDebug
 
